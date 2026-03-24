@@ -1,55 +1,54 @@
-// ==========================
-// MOBILE MENU
-// ==========================
+// ================= MENU =================
 const menuToggle = document.getElementById("menuToggle");
 const sidebar = document.getElementById("sidebar");
 
-menuToggle.onclick = () => {
-  sidebar.classList.toggle("active");
-};
+if (menuToggle) {
+  menuToggle.onclick = () => {
+    sidebar.classList.toggle("active");
+  };
+}
 
-// ==========================
-// DARK / LIGHT MODE
-// ==========================
+// ================= THEME =================
 const themeToggle = document.getElementById("themeToggle");
 
-themeToggle.onclick = () => {
-  document.body.classList.toggle("light");
-};
-
-// ==========================
-// TYPING EFFECT
-// ==========================
-const text = "S. Reshad Hashemi";
-let i = 0;
-
-function type() {
-  if (i < text.length) {
-    document.getElementById("typing").innerHTML += text.charAt(i);
-    i++;
-    setTimeout(type, 70);
-  }
+if (themeToggle) {
+  themeToggle.onclick = () => {
+    document.body.classList.toggle("light");
+  };
 }
-type();
 
-// ==========================
-// SCROLL REVEAL
-// ==========================
+// ================= TYPING FIX =================
+const typingEl = document.getElementById("typing");
+const text = "S. Reshad Hashemi";
+
+if (typingEl) {
+  typingEl.innerHTML = ""; // FIX duplicate
+  let i = 0;
+
+  function type() {
+    if (i < text.length) {
+      typingEl.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(type, 60);
+    }
+  }
+  type();
+}
+
+// ================= REVEAL FIX =================
 function reveal() {
-  const reveals = document.querySelectorAll(".reveal");
-
-  reveals.forEach(el => {
+  document.querySelectorAll(".reveal").forEach(el => {
     const top = el.getBoundingClientRect().top;
     if (top < window.innerHeight - 100) {
       el.classList.add("active");
     }
   });
 }
-window.addEventListener("scroll", reveal);
 
-// ==========================
-// ACTIVE NAV LINK
-// ==========================
+window.addEventListener("scroll", reveal);
+window.addEventListener("load", reveal); // FIX
+
+// ================= ACTIVE NAV FIX =================
 const sections = document.querySelectorAll("section");
 const navLinks = document.querySelectorAll(".nav-link");
 
@@ -57,8 +56,8 @@ window.addEventListener("scroll", () => {
   let current = "";
 
   sections.forEach(section => {
-    const top = section.offsetTop;
-    if (scrollY >= top - 200) {
+    const top = section.offsetTop - 150;
+    if (scrollY >= top) {
       current = section.getAttribute("id");
     }
   });
